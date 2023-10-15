@@ -55,7 +55,5 @@ luac.out
 
 #playdate
 builds/
-ADD_ENV_VARIABLE.cmd
-Build*and*Run*(Simulator).ps1
-build_and_run.sh
+
 
