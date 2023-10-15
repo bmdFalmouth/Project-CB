@@ -12,6 +12,10 @@ local testSoundChannel <const> = 2
 local background_sound=nil
 local conversation_sound=nil
 
+local systemFont=nil
+
+local channelFont=nil
+
 
 -- CB Radio frequencies
 -- https://www.rightchannelradios.com/blogs/newsletters/cb-radio-frequencies-and-channels#:~:text=The%20CB%20Radio%20spectrum%20is,noted%20in%20the%20table%20below.
@@ -28,8 +32,9 @@ end
 local function loadGame()
 	playdate.display.setRefreshRate(50) -- Sets framerate to 50 fps
 	math.randomseed(playdate.getSecondsSinceEpoch()) -- seed for math.random
-	local font = gfx.font.new('font/Mini Sans 2X') -- DEMO
-	gfx.setFont(font) -- DEMO
+	systemFont = gfx.font.new('font/Mini Sans 2X') -- DEMO
+	channelFont = gfx.font.new('font/CursedTimerUlil-Aznm-20') 
+	
 	background_sound=playdate.sound.sampleplayer.new('sound/Static-Looping')
 	if background_sound == nil then
 		print("Sound not loaded")
@@ -71,11 +76,16 @@ end
 -- draw game
 local function drawGame()
 	gfx.clear() -- Clears the screen
+	
+	gfx.setFont(systemFont) -- DEMO
 	playdate.drawFPS(0,0) -- FPS widget
-	-- draw the frequency capped at 3 decimal places
-	gfx.drawText(currentChannel,180,110)
 	-- debug crank value
 	gfx.drawText(crankValueDelta,300,0)
+
+	gfx.setFont(channelFont) -- DEMO
+	-- draw the frequency capped at 3 decimal places
+	gfx.drawText(currentChannel,180,110)
+
 end
 
 -- call load game function
