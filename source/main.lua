@@ -1,7 +1,10 @@
 import "CoreLibs/graphics"
 import "CoreLibs/object"
 import "CoreLibs/crank"
+
+
 import "Sprite/sprite"
+import "Scene/scene"
 
 local gfx <const> = playdate.graphics
 local crankValueDelta=0
@@ -18,6 +21,8 @@ local channelFont=nil
 
 local currentChannelText=nil
 local debugText=nil
+
+local gameScene=nil
 
 
 -- CB Radio frequencies
@@ -51,6 +56,10 @@ local function loadGame()
 
 	currentChannelText=TextSprite(180,110,channelFont,0)
 	debugText=TextSprite(300,0,systemFont,"debug")
+	
+	gameScene=Scene()
+	gameScene:addToRenderQueue(currentChannelText)
+	gameScene:addToRenderQueue(debugText)
 end
 
 --update game
@@ -90,8 +99,9 @@ local function drawGame()
 	gfx.setFont(systemFont) -- DEMO
 	playdate.drawFPS(0,0) -- FPS widget
 	-- debug crank value
-	debugText:draw(gfx)
-	currentChannelText:draw(gfx)
+	--debugText:draw(gfx)
+	--currentChannelText:draw(gfx)
+	gameScene:draw(gfx)
 
 end
 
