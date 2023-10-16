@@ -1,9 +1,9 @@
 import "CoreLibs/graphics"
 import "CoreLibs/object"
 import "CoreLibs/crank"
+import "Sprite/sprite"
 
 local gfx <const> = playdate.graphics
---local frequency=26.965
 local crankValueDelta=0
 
 local currentChannel=0
@@ -15,6 +15,9 @@ local conversation_sound=nil
 local systemFont=nil
 
 local channelFont=nil
+
+local currentChannelText=nil
+local debugText=nil
 
 
 -- CB Radio frequencies
@@ -45,14 +48,21 @@ local function loadGame()
 	if conversation_sound == nil then
 		print("Sound not loaded")
 	end
+
+	currentChannelText=TextSprite(180,110,channelFont,0)
+	debugText=TextSprite(300,0,systemFont,"debug")
 end
 
 --update game
 local function updateGame()
-	--get crank ticks, this will update every 90 degrees( 360 / 4 )
+	--get crank ticks, this will update every 180 degrees( 360 / 2 )
 	crankValueDelta=playdate.getCrankTicks(2)
 	currentChannel+=crankValueDelta
 	currentChannel=math.clamp(currentChannel,0,40)
+	currentChannelText:setText(currentChannel)
+
+	debugText:setText(crankValueDelta)
+
 	-- test stuff to work on interrupting background sound with conversation sound  (will be reworked)
 	if (currentChannel==testSoundChannel) then
 		
@@ -80,11 +90,8 @@ local function drawGame()
 	gfx.setFont(systemFont) -- DEMO
 	playdate.drawFPS(0,0) -- FPS widget
 	-- debug crank value
-	gfx.drawText(crankValueDelta,300,0)
-
-	gfx.setFont(channelFont) -- DEMO
-	-- draw the frequency capped at 3 decimal places
-	gfx.drawText(currentChannel,180,110)
+	debugText:draw(gfx)
+	currentChannelText:draw(gfx)
 
 end
 
