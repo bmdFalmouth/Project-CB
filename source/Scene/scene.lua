@@ -2,9 +2,13 @@ import 'CoreLibs/object'
 
 class('Scene',{renderQueue={}}).extends()
 
+
 function Scene:init()
     Scene.super.init(self)
     self.renderQueue = {}
+end
+
+function Scene:load()
 end
 
 function Scene:addToRenderQueue(sprite)
