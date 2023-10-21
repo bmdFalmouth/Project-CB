@@ -28,4 +28,6 @@ end
 
 function MainMenuScene:startGame()
     print("Start Game")
+    self.nextScene:load()
+    sceneManager:setCurrentScene(self.nextScene)
 end

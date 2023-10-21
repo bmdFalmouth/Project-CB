@@ -21,6 +21,9 @@ end
 function Scene:load()
 end
 
+function Scene:unload()
+end
+
 function Scene:addToRenderQueue(sprite)
     table.insert(self.renderQueue,sprite)
     print(#self.renderQueue)
@@ -80,3 +83,5 @@ function SceneManager:draw(gfx)
         self.currentScene:draw(gfx)
     end
 end
+
+sceneManager=SceneManager()

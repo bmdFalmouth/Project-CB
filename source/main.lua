@@ -13,6 +13,7 @@ local gameScene=nil
 
 local mainMenuScene=nil
 
+
 -- CB Radio frequencies
 -- https://www.rightchannelradios.com/blogs/newsletters/cb-radio-frequencies-and-channels#:~:text=The%20CB%20Radio%20spectrum%20is,noted%20in%20the%20table%20below.
 
@@ -21,18 +22,22 @@ local mainMenuScene=nil
 local function loadGame()
 	playdate.display.setRefreshRate(50) -- Sets framerate to 50 fps
 	math.randomseed(playdate.getSecondsSinceEpoch()) -- seed for math.random
-	--gameScene=ProjectCBScene()
-	--gameScene:load()
-
 	mainMenuScene=MainMenuScene()
 	mainMenuScene:load()
 
+
+	gameScene=ProjectCBScene()
+	--gameScene:load()
+	mainMenuScene:setNextScene(gameScene)
+
+	sceneManager:addScene(gameScene)
+	sceneManager:addScene(mainMenuScene)
+	sceneManager:setCurrentScene(mainMenuScene)
 end
 
 --update game
 local function updateGame()
-	--gameScene:update()
-	mainMenuScene:update()
+	sceneManager:update()
 end
 
 -- draw game
@@ -41,8 +46,8 @@ local function drawGame()
 	
 	gfx.setFont(systemFont) -- DEMO
 	playdate.drawFPS(0,0) -- FPS widget
-	--gameScene:draw(gfx)
-	mainMenuScene:draw(gfx)
+
+	sceneManager:draw(gfx)
 
 end
 
