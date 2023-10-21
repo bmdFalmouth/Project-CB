@@ -24,11 +24,12 @@ local debugText=nil
 
 function ProjectCBScene:init()
     ProjectCBScene.super.init(self)
+	self.name="GameScene"
 end
 
 function ProjectCBScene:load()
     systemFont = playdate.graphics.font.new('font/Mini Sans 2X') -- DEMO
-	channelFont = playdate.graphics.font.new('font/CursedTimerUlil-Aznm-20') 
+	channelFont = playdate.graphics.font.new('font/CursedTimerUlil-Aznm-20')
 	
 	background_sound=playdate.sound.sampleplayer.new('sound/Static-Looping')
 	if background_sound == nil then

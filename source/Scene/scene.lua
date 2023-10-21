@@ -1,12 +1,21 @@
 import 'CoreLibs/object'
 
-class('Scene',{renderQueue={},nextScene=nil}).extends()
+class('Scene',{renderQueue={},nextScene=nil,name=""}).extends()
 
 
 function Scene:init()
     Scene.super.init(self)
     self.renderQueue = {}
     self.nextScene = nil
+    self.name=""
+end
+
+function Scene:getName()
+    return self.name
+end
+
+function Scene:setName(name)
+    self.name=name
 end
 
 function Scene:load()
@@ -42,8 +51,14 @@ function SceneManager:init()
 end
 
 function SceneManager:addScene(scene)
-    table.insert(self.sceneList,scene)
-    self.setCurrentScene(self.sceneList[1])
+    --check if a scene with the same name already exists in the scenelist table
+    if (self.sceneList[scene:getName()]~=nil) then
+        print("Scene with name "..scene:getName().." already exists")
+        return
+    else
+        self.sceneList[scene:getName()]=scene
+        currentScene=scene
+    end
 end
 
 function SceneManager:setCurrentScene(scene)
