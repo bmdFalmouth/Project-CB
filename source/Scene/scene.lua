@@ -18,6 +18,7 @@ function Scene:setName(name)
     self.name=name
 end
 
+--need to look at coroutines for this
 function Scene:load()
 end
 
