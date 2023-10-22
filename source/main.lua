@@ -9,10 +9,6 @@ import "mainMenu"
 
 local gfx <const> = playdate.graphics
 
-local gameScene=nil
-
-local mainMenuScene=nil
-
 
 -- CB Radio frequencies
 -- https://www.rightchannelradios.com/blogs/newsletters/cb-radio-frequencies-and-channels#:~:text=The%20CB%20Radio%20spectrum%20is,noted%20in%20the%20table%20below.
@@ -22,12 +18,13 @@ local mainMenuScene=nil
 local function loadGame()
 	playdate.display.setRefreshRate(50) -- Sets framerate to 50 fps
 	math.randomseed(playdate.getSecondsSinceEpoch()) -- seed for math.random
+
+	--init scenes
 	mainMenuScene=MainMenuScene()
 	mainMenuScene:load()
 
 
 	gameScene=ProjectCBScene()
-	--gameScene:load()
 	mainMenuScene:setNextScene(gameScene)
 
 	sceneManager:addScene(gameScene)
