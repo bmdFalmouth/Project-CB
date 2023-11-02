@@ -22,6 +22,9 @@ local channelFont=nil
 local currentChannelText=nil
 local debugText=nil
 
+--every 5 minutes is 1 game hour
+local gameTime=0
+
 function ProjectCBScene:init()
     ProjectCBScene.super.init(self)
 	self.name="GameScene"
@@ -47,17 +50,28 @@ function ProjectCBScene:load()
 
     self:addToRenderQueue(currentChannelText)
 	self:addToRenderQueue(debugText)
+
+	playdate.resetElapsedTime()
 end
 
 function ProjectCBScene:update()
     ProjectCBScene.super.update(self)
-    	--get crank ticks, this will update every 180 degrees( 360 / 2 )
+	gameTime+=playdate.getElapsedTime()
+	--get seconds
+	seconds=math.floor(gameTime/1000)
+	--get minutes 
+	minutes=math.floor(seconds/60)
+    --get crank ticks, this will update every 180 degrees( 360 / 2 )
 	crankValueDelta=playdate.getCrankTicks(2)
 	currentChannel+=crankValueDelta
 	currentChannel=math.clamp(currentChannel,0,40)
 	currentChannelText:setText(currentChannel)
-
-	debugText:setText(crankValueDelta)
+	--format string from minutes and seconds
+	seconds=seconds%60
+	seconds=string.format("%02d",seconds)
+	minutes=string.format("%02d",minutes)
+	time=minutes..":"..seconds
+	debugText:setText(time)
 
 	-- test stuff to work on interrupting background sound with conversation sound  (will be reworked)
 	if (currentChannel==testSoundChannel) then
