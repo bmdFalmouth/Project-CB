@@ -10,10 +10,6 @@ import "mainMenu"
 local gfx <const> = playdate.graphics
 
 
--- CB Radio frequencies
--- https://www.rightchannelradios.com/blogs/newsletters/cb-radio-frequencies-and-channels#:~:text=The%20CB%20Radio%20spectrum%20is,noted%20in%20the%20table%20below.
-
-
 --load game
 local function loadGame()
 	playdate.display.setRefreshRate(50) -- Sets framerate to 50 fps
