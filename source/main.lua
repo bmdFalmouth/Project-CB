@@ -1,6 +1,7 @@
 import "CoreLibs/graphics"
 import "CoreLibs/object"
 import "CoreLibs/crank"
+import "CoreLibs/timer"
 import "Math/math"
 
 import "Sprite/sprite"
@@ -49,6 +50,7 @@ loadGame()
 
 -- call back update function, game loop
 function playdate.update()
+	playdate.timer.updateTimers()
 	updateGame()
 	drawGame()
 end
