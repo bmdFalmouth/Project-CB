@@ -16,6 +16,7 @@ import "project-CB/storyPoint"
 class('ProjectCBScene').extends(Scene)
 
 local currentChannel=0
+local lastChannel=40
 local testSoundChannel <const> = 2
 
 local background_sound=nil
@@ -32,8 +33,11 @@ local debugText=nil
 local gameTime=0
 
 local currentStoryPoint=nil
+local lastStoryPoint=nil
 
 local storyPointManager=nil
+
+local currentStoryPointsAtTime={}
 
 function ProjectCBScene:init()
     ProjectCBScene.super.init(self)
@@ -57,7 +61,7 @@ function ProjectCBScene:load()
 	self:addToRenderQueue(debugText)
 
 	--load story point
-	currentStoryPoint=StoryPoint(1,testSoundChannel,"This is a test story point","sound/conversation")
+	currentStoryPoint=StoryPoint("00:00:30",testSoundChannel,"This is a test story point","sound/conversation")
 	currentStoryPoint:loadSound()
 
 	storyPointManager=StoryPointManager()
@@ -69,7 +73,6 @@ function ProjectCBScene:load()
 end
 
 function ProjectCBScene:gameTimerUpdate()
-	print("Game Timer Update")
 	gameTime+=1
 	
 	local seconds=gameTime%60
@@ -79,8 +82,14 @@ function ProjectCBScene:gameTimerUpdate()
 	seconds=string.format("%02d",seconds)
 	minutes=string.format("%02d",minutes)
 	hours=string.format("%02d",hours)
+
 	time=hours..":"..minutes..":"..seconds
 	debugText:setText(time)
+
+	--get the current set of story points from this time, only do this if the time has changed by 30 seconds
+	if (gameTime%30==0) then
+		currentStoryPointsAtTime=storyPointManager:getCurrentStoryPoint(time)
+	end
 end
 
 function ProjectCBScene:update()
@@ -92,22 +101,24 @@ function ProjectCBScene:update()
 	currentChannel=math.clamp(currentChannel,0,40)
 	currentChannelText:setText(currentChannel)
 
-	-- test stuff to work on interrupting background sound with conversation sound  (will be reworked)
-	if (currentChannel==currentStoryPoint:getChannel()) then
-		if (background_sound:isPlaying()) then
-			background_sound:stop()
-		end
-		if (currentStoryPoint:isSoundPlaying()==false) then
+	--some of this logic should be moved to the timer function, we should only be interested in the
+	--current channel
+	if (currentChannel~=lastChannel) then
+		--get current channel story point
+		currentStoryPoint=currentStoryPointsAtTime[currentChannel]
+		if currentStoryPoint~=nil then
+			if lastStoryPoint~=nil then
+				lastStoryPoint:stopSound()
+			end
+			if background_sound:isPlaying() then
+				background_sound:stop()
+			end
 			currentStoryPoint:playSound()
 		end
-	else
-		if (currentStoryPoint:isSoundPlaying()) then
-			currentStoryPoint:stopSound()
-		end
-		if (background_sound:isPlaying()==false) then
-			background_sound:play(0)
-		end
+		lastStoryPoint=currentStoryPoint
 	end
+
+	lastChannel=currentChannel
 end
 
 
