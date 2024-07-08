@@ -85,6 +85,7 @@ function StoryPointManager:init()
         self.storyPoints[time]={}
         for j=0,40 do
             self.storyPoints[time][j]=nil
+            print("Nil Story Point "..time.." "..j.." added")
         end
         seconds+=30
         if seconds>=60 then
@@ -108,5 +109,6 @@ function StoryPointManager:getStoryPoint(gameTime,channel)
 end
 
 function StoryPointManager:getStoryPointsAtTime(gameTime)
+    print("Getting a list of story points at time "..gameTime)
     return self.storyPoints[gameTime]
 end

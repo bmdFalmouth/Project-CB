@@ -88,7 +88,19 @@ function ProjectCBScene:gameTimerUpdate()
 
 	--get the current set of story points from this time, only do this if the time has changed by 30 seconds
 	if (gameTime%30==0) then
-		currentStoryPointsAtTime=storyPointManager:getCurrentStoryPoint(time)
+		if (currentStoryPoint~=nil) then
+			print("Stopping current story sound")
+			currentStoryPoint:stopSound()
+		end
+		currentStoryPointsAtTime=storyPointManager:getStoryPointsAtTime(time)
+		currentStoryPoint=currentStoryPointsAtTime[currentChannel]
+		if (currentStoryPoint~=nil) then
+			background_sound.stop()
+			print("Play new story sound")
+			currentStoryPoint:playSound()
+		else
+			background_sound.play(0)
+		end
 	end
 end
 
@@ -101,24 +113,6 @@ function ProjectCBScene:update()
 	currentChannel=math.clamp(currentChannel,0,40)
 	currentChannelText:setText(currentChannel)
 
-	--some of this logic should be moved to the timer function, we should only be interested in the
-	--current channel
-	if (currentChannel~=lastChannel) then
-		--get current channel story point
-		currentStoryPoint=currentStoryPointsAtTime[currentChannel]
-		if currentStoryPoint~=nil then
-			if lastStoryPoint~=nil then
-				lastStoryPoint:stopSound()
-			end
-			if background_sound:isPlaying() then
-				background_sound:stop()
-			end
-			currentStoryPoint:playSound()
-		end
-		lastStoryPoint=currentStoryPoint
-	end
-
-	lastChannel=currentChannel
 end
 
 
