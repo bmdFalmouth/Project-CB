@@ -25,26 +25,25 @@ function StoryPoint:init(gameTime,assignedChannel,text,soundFileName)
     self.storyPointData.soundFileName=soundFileName
 end
 
-function StoryPoint:loadfile(fileName)
+function StoryPoint:loadFromFile(fileName)
     --open a file
-    local storyPointData=playdate.datastore.read(fileName)
-    if storyPointData == nil then
+    self.storyPointData=playdate.datastore.read(fileName)
+    if self.storyPointData == nil then
         print("File not found")
         return
     end
-    --read the file
-    self.gameTime=storyPointData.gameTime
-    self.assignedChannel=storyPointData.assignedChannel
-    self.text=storyPointData.text
-    self.soundFileName=storyPointData.soundFileName
 end
 
 function StoryPoint:loadSound()
     -- we should load the sound from a sound manager, instead of loading it here
-    self.sound=playdate.sound.sampleplayer.new(self.soundFileName)
+    self.sound=playdate.sound.sampleplayer.new(self.storyPointData.soundFileName)
     if self.sound == nil then
         print("Sound not loaded")
     end
+end
+
+function StoryPoint:isSoundPlaying()
+    return self.sound:isPlaying()
 end
 
 function StoryPoint:playSound()
@@ -56,9 +55,33 @@ function StoryPoint:stopSound()
 end
 
 function StoryPoint:getText()
-    return self.text
+    return self.storyPointData.text
 end
 
 function StoryPoint:getChannel()
-    return self.assignedChannel
+    return self.storyPointData.assignedChannel
+end
+
+function StoryPoint:getGameTime()
+    return self.storyPointData.gameTime
+end
+
+class ('StoryPointManager').extends()
+
+function StoryPointManager:init()
+    StoryPointManager.super.init(self)
+    self.storyPoints={{}}
+end
+
+function StoryPointManager:addStoryPoint(storyPoint)
+    print("Story Point "..storyPoint:getChannel().." added")
+    self.storyPoints[storyPoint:getGameTime()][storyPoint:getChannel()]=storyPoint
+end
+
+function StoryPointManager:getStoryPoint(gameTime,channel)
+    return self.storyPoints[gameTime][channel]
+end
+
+function StoryPointManager:getStoryPointAtTime(gameTime)
+    return self.storyPoints[gameTime]
 end

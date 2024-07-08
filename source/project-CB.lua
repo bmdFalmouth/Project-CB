@@ -10,6 +10,7 @@ import "Math/math"
 
 import "Sprite/sprite"
 import "Scene/scene"
+import "project-CB/storyPoint"
 
 class('ProjectCBScene').extends(Scene)
 
@@ -29,6 +30,10 @@ local debugText=nil
 --every 5 minutes is 1 game hour
 local gameTime=0
 
+local currentStoryPoint=nil
+
+local storyPointManager=nil
+
 function ProjectCBScene:init()
     ProjectCBScene.super.init(self)
 	self.name="GameScene"
@@ -44,16 +49,18 @@ function ProjectCBScene:load()
 	end
 	background_sound:play(0)
 
-	conversation_sound=playdate.sound.sampleplayer.new('sound/conversation')
-	if conversation_sound == nil then
-		print("Sound not loaded")
-	end
-
 	currentChannelText=TextSprite(180,110,channelFont,0)
 	debugText=TextSprite(300,0,systemFont,"debug")
 
     self:addToRenderQueue(currentChannelText)
 	self:addToRenderQueue(debugText)
+
+	--load story point
+	currentStoryPoint=StoryPoint(1,testSoundChannel,"This is a test story point","sound/conversation")
+	currentStoryPoint:loadSound()
+
+	storyPointManager=StoryPointManager()
+	storyPointManager:addStoryPoint(currentStoryPoint)
 
 	playdate.resetElapsedTime()
 end
@@ -78,17 +85,17 @@ function ProjectCBScene:update()
 	debugText:setText(time)
 
 	-- test stuff to work on interrupting background sound with conversation sound  (will be reworked)
-	if (currentChannel==testSoundChannel) then
+	if (currentChannel==currentStoryPoint:getChannel()) then
 		
 		if (background_sound:isPlaying()) then
 			background_sound:stop()
 		end
-		if (conversation_sound:isPlaying()==false) then
-			conversation_sound:play(0)
+		if (currentStoryPoint:isSoundPlaying()==false) then
+			currentStoryPoint:playSound()
 		end
 	else
-		if (conversation_sound:isPlaying()) then
-			conversation_sound:stop()
+		if (currentStoryPoint:isSoundPlaying()) then
+			currentStoryPoint:stopSound()
 		end
 		if (background_sound:isPlaying()==false) then
 			background_sound:play(0)
