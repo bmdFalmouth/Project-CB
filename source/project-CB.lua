@@ -95,11 +95,11 @@ function ProjectCBScene:gameTimerUpdate()
 		currentStoryPointsAtTime=storyPointManager:getStoryPointsAtTime(time)
 		currentStoryPoint=currentStoryPointsAtTime[currentChannel]
 		if (currentStoryPoint~=nil) then
-			background_sound.stop()
+			background_sound:stop()
 			print("Play new story sound")
 			currentStoryPoint:playSound()
 		else
-			background_sound.play(0)
+			background_sound:play(0)
 		end
 	end
 end
@@ -113,6 +113,22 @@ function ProjectCBScene:update()
 	currentChannel=math.clamp(currentChannel,0,40)
 	currentChannelText:setText(currentChannel)
 
+	--get a story point from currentStortyPointsAtTime
+	if (currentChannel~=lastChannel) then
+		if (currentStoryPoint~=nil) then
+			print("Stopping current story sound")
+			currentStoryPoint:stopSound()
+		end
+		currentStoryPoint=currentStoryPointsAtTime[currentChannel]
+		if (currentStoryPoint~=nil) then
+			background_sound:stop()
+			print("Play new story sound")
+			currentStoryPoint:playSound()
+		else
+			background_sound:play(0)
+		end
+	end
+	lastChannel=currentChannel
 end
 
 
