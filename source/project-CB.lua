@@ -25,9 +25,11 @@ local conversation_sound=nil
 local systemFont=nil
 
 local channelFont=nil
+local storyFont=nil
 
 local currentChannelText=nil
 local debugText=nil
+local storyText=nil
 
 --every 5 minutes is 1 game hour
 local gameTime=0
@@ -39,6 +41,7 @@ local storyPointManager=nil
 
 local currentStoryPointsAtTime={}
 
+-- init function
 function ProjectCBScene:init()
     ProjectCBScene.super.init(self)
 	self.name="GameScene"
@@ -47,18 +50,22 @@ end
 function ProjectCBScene:load()
     systemFont = playdate.graphics.font.new('font/Mini Sans 2X') -- DEMO
 	channelFont = playdate.graphics.font.new('font/CursedTimerUlil-Aznm-20')
+	storyFont = playdate.graphics.font.new('font/CRoboto-Medium-12')
 	
 	background_sound=playdate.sound.sampleplayer.new('sound/Static-Looping')
 	if background_sound == nil then
 		print("Sound not loaded")
 	end
+	
 	background_sound:play(0)
 
-	currentChannelText=TextSprite(180,110,channelFont,0)
+	currentChannelText=TextSprite(180,50,channelFont,0)
 	debugText=TextSprite(300,0,systemFont,"debug")
+	storyText=TextSprite(40,120,storyFont," ")
 
     self:addToRenderQueue(currentChannelText)
 	self:addToRenderQueue(debugText)
+	self:addToRenderQueue(storyText)
 
 	--load story point
 	currentStoryPoint=StoryPoint("00:00:30",testSoundChannel,"This is a test story point","sound/conversation")
@@ -98,8 +105,10 @@ function ProjectCBScene:gameTimerUpdate()
 			background_sound:stop()
 			print("Play new story sound")
 			currentStoryPoint:playSound()
+			storyText:setText(currentStoryPoint:getText())
 		else
 			background_sound:play(0)
+			storyText:setText("")
 		end
 	end
 end
@@ -124,12 +133,11 @@ function ProjectCBScene:update()
 			background_sound:stop()
 			print("Play new story sound")
 			currentStoryPoint:playSound()
+			storyText:setText(currentStoryPoint:getText())
 		else
 			background_sound:play(0)
+			storyText:setText("")
 		end
 	end
 	lastChannel=currentChannel
 end
-
-
-
