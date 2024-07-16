@@ -1,0 +1,11 @@
+{
+    "storypoints":[
+        {
+            "gameTime":"00:00:30",
+            "assignedChannel":2,
+            "text":"This is a test story point",
+            "soundFileName":"sound/conversation"
+        }
+
+    ]
+}

@@ -68,11 +68,12 @@ function ProjectCBScene:load()
 	self:addToRenderQueue(storyText)
 
 	--load story point
-	currentStoryPoint=StoryPoint("00:00:30",testSoundChannel,"This is a test story point","sound/conversation")
-	currentStoryPoint:loadSound()
+	--currentStoryPoint=StoryPoint("00:00:30",testSoundChannel,"This is a test story point","sound/conversation")
+	--currentStoryPoint:loadSound()
 
 	storyPointManager=StoryPointManager()
-	storyPointManager:addStoryPoint(currentStoryPoint)
+	storyPointManager:loadStoryPointsFromFile("Story/StoryPointTest.json")
+	--storyPointManager:addStoryPoint(currentStoryPoint)
 
 	playdate.resetElapsedTime()
 	playdate.timer.keyRepeatTimerWithDelay(1000,1000,ProjectCBScene.gameTimerUpdate)

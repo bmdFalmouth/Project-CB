@@ -56,4 +56,5 @@ luac.out
 #playdate
 builds/
 
+.sentry-native/
 

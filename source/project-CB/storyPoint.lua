@@ -16,6 +16,11 @@ function StoryPoint:init()
     self.storyPointData={}
 end
 
+function StoryPoint:init(storyPointsData)
+    StoryPoint.super.init(self)
+    self.storyPointData=storyPointsData
+end
+
 function StoryPoint:init(gameTime,assignedChannel,text,soundFileName)
     StoryPoint.super.init(self)
     self.storyPointData={}
@@ -96,6 +101,23 @@ function StoryPointManager:init()
                 hours+=1
             end
         end
+    end
+end
+
+function StoryPointManager:loadStoryPointsFromFile(fileName)
+    --open a file
+    local storyPointsData=json.decodeFile(fileName)
+    printTable(storyPointsData)
+    if storyPointsData == nil then
+        print("File not found")
+        return
+    end
+    --loop through the story points and add them to the table
+    for i=1,#storyPointsData do
+        printTable(storyPointsData[i])
+        storyPoint=StoryPoint.new()
+        storyPoint:init(storyPointsData[i])
+        self:addStoryPoint(storyPoint)
     end
 end
 
