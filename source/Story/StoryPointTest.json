@@ -1,15 +1,21 @@
 {
     "storypoints":[
         {
+            "gameTime":"00:00:00",
+            "assignedChannel":5,
+            "text":"This is a test story point 1",
+            "soundFileName":"sound/conversation"
+        },
+        {
             "gameTime":"00:00:30",
             "assignedChannel":2,
-            "text":"This is a test story point",
+            "text":"This is a test story point 2",
             "soundFileName":"sound/conversation"
         },
         {
             "gameTime":"00:01:00",
             "assignedChannel":1,
-            "text":"SP1",
+            "text":"This is a test story point 3",
             "soundFileName":"sound/conversation"
         }
     ]
