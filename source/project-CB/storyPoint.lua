@@ -28,6 +28,7 @@ function StoryPoint:init(gameTime,assignedChannel,text,soundFileName)
     self.storyPointData.assignedChannel=assignedChannel
     self.storyPointData.text=text
     self.storyPointData.soundFileName=soundFileName
+    self.sound=nil
 end
 
 function StoryPoint:loadFromFile(fileName)
@@ -52,11 +53,15 @@ function StoryPoint:isSoundPlaying()
 end
 
 function StoryPoint:playSound()
-    self.sound:play(0)
+    if(self.sound~=nil) then
+        self.sound:play(0)
+    end
 end
 
 function StoryPoint:stopSound()
-    self.sound:stop()
+    if(self.sound~=nil) then
+        self.sound:stop()
+    end
 end
 
 function StoryPoint:getText()
@@ -107,17 +112,18 @@ end
 function StoryPointManager:loadStoryPointsFromFile(fileName)
     --open a file
     local storyPointsData=json.decodeFile(fileName)
-    printTable(storyPointsData)
+    printTable(storyPointsData.storypoints)
     if storyPointsData == nil then
         print("File not found")
         return
     end
     --loop through the story points and add them to the table
-    for i=1,#storyPointsData do
-        printTable(storyPointsData[i])
-        storyPoint=StoryPoint.new()
-        storyPoint:init(storyPointsData[i])
-        self:addStoryPoint(storyPoint)
+    for k,v in pairs(storyPointsData.storypoints) do
+        print("Adding Story Point from json")
+        --printTable(v["assignedChannel"].." "..v["gameTime"].." "..v["text"].." "..v["soundFileName"])
+        local currentStoryPoint=StoryPoint(v["gameTime"],v["assignedChannel"],v["text"],v["soundFileName"])
+        print(currentStoryPoint)
+        self:addStoryPoint(currentStoryPoint)
     end
 end
 

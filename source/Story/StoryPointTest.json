@@ -5,7 +5,12 @@
             "assignedChannel":2,
             "text":"This is a test story point",
             "soundFileName":"sound/conversation"
+        },
+        {
+            "gameTime":"00:01:00",
+            "assignedChannel":1,
+            "text":"SP1",
+            "soundFileName":"sound/conversation"
         }
-
     ]
 }
