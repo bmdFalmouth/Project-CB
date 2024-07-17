@@ -58,3 +58,5 @@ builds/
 
 .sentry-native/
 
+~*.*
+
