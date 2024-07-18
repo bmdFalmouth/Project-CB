@@ -55,7 +55,7 @@ function ProjectCBScene:load()
 
 	currentChannelText=TextSprite(180,50,channelFont,0)
 	debugText=TextSprite(300,0,systemFont,"debug")
-	storyText=TextSprite(40,120,storyFont," ")
+	storyText=TextBoxSprite(20,120,360,100,storyFont," ")
 
     self:addToRenderQueue(currentChannelText)
 	self:addToRenderQueue(debugText)
@@ -77,6 +77,7 @@ function ProjectCBScene:load()
 	end
 	
 	background_sound:play(0)
+	storyText:stop()
 end
 
 function ProjectCBScene:gameTimerUpdate()
@@ -105,9 +106,11 @@ function ProjectCBScene:gameTimerUpdate()
 			print("Play new story sound")
 			currentStoryPoint:playSound()
 			storyText:setText(currentStoryPoint:getText())
+			storyText:start()
 		else
 			background_sound:play(0)
-			storyText:setText("")
+			storyText:stop()
+			storyText:reset()
 		end
 	end
 end
@@ -133,9 +136,11 @@ function ProjectCBScene:update()
 			print("Play new story sound")
 			currentStoryPoint:playSound()
 			storyText:setText(currentStoryPoint:getText())
+			storyText:start()
 		else
 			background_sound:play(0)
-			storyText:setText("")
+			storyText:stop()
+			storyText:reset()
 		end
 	end
 	lastChannel=currentChannel
