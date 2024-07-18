@@ -27,7 +27,7 @@ function StoryPoint:init(gameTime,assignedChannel,text,soundFileName)
     self.storyPointData.gameTime=gameTime
     self.storyPointData.assignedChannel=assignedChannel
     self.storyPointData.text=text
-    self.storyPointData.soundFileName=soundFileName
+    self.storyPointData.soundFileName="sound/"..soundFileName
     self.sound=nil
 end
 
@@ -41,7 +41,7 @@ function StoryPoint:loadFromFile(fileName)
 end
 
 function StoryPoint:loadSound()
-    -- we should load the sound from a sound manager, instead of loading it here
+    print("Loading sound "..self.storyPointData.soundFileName)
     self.sound=playdate.sound.sampleplayer.new(self.storyPointData.soundFileName)
     if self.sound == nil then
         print("Sound not loaded")
@@ -54,7 +54,7 @@ end
 
 function StoryPoint:playSound()
     if(self.sound~=nil) then
-        self.sound:play(0)
+        self.sound:play(1)
     end
 end
 
@@ -129,6 +129,8 @@ end
 
 function StoryPointManager:addStoryPoint(storyPoint)
     print("Story Point "..storyPoint:getChannel().." added")
+    --remove this at some point
+    storyPoint:loadSound()
     self.storyPoints[storyPoint:getGameTime()][storyPoint:getChannel()]=storyPoint
 end
 

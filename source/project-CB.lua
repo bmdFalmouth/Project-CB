@@ -51,13 +51,7 @@ function ProjectCBScene:load()
     systemFont = playdate.graphics.font.new('font/Mini Sans 2X') -- DEMO
 	channelFont = playdate.graphics.font.new('font/CursedTimerUlil-Aznm-20')
 	storyFont = playdate.graphics.font.new('font/CRoboto-Medium-12')
-	
-	background_sound=playdate.sound.sampleplayer.new('sound/Static-Looping')
-	if background_sound == nil then
-		print("Sound not loaded")
-	end
-	
-	background_sound:play(0)
+
 
 	currentChannelText=TextSprite(180,50,channelFont,0)
 	debugText=TextSprite(300,0,systemFont,"debug")
@@ -77,6 +71,12 @@ function ProjectCBScene:load()
 	currentStoryPointsAtTime=storyPointManager:getStoryPointsAtTime("00:00:00")
 	printTable(currentStoryPointsAtTime)
 
+	background_sound=playdate.sound.sampleplayer.new('sound/Static-Looping')
+	if background_sound == nil then
+		print("Sound not loaded")
+	end
+	
+	background_sound:play(0)
 end
 
 function ProjectCBScene:gameTimerUpdate()
