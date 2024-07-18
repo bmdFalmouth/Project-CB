@@ -1,2 +1,10 @@
+certifi==2024.7.4
+charset-normalizer==3.3.2
+click==8.1.7
 et-xmlfile==1.1.0
+gTTS==2.5.1
+idna==3.7
 openpyxl==3.1.5
+pydub==0.25.1
+requests==2.32.3
+urllib3==2.2.2
