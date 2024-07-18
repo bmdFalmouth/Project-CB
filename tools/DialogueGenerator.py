@@ -27,7 +27,7 @@ def main():
 
         #convert the mp3 file to wav
         sound = AudioSegment.from_mp3(f'/temp/Sound/{sound_file_name}.mp3')
-        sound.export(f'/temp/Sound/{sound_file_name}.wav', format="wav")
+        sound.export(f'../source/sound/{sound_file_name}.wav', format="wav")
         
     #delete the temp folder and all files in it
     os.system('rm -rf /temp')
