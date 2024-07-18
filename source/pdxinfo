@@ -1,6 +1,6 @@
-name=Template
-author=You
-description=This is template project
+name=Project-CB
+author=Brian McDonald
+description=Creepy CB Radio game
 bundleID=com.organization.package
 version=0.0.1
 buildNumber=1
