@@ -24,7 +24,7 @@ def main():
         game_time, assigned_channel, story_text,sound_file_name = row
         print(f"time: {game_time} channel: {assigned_channel} story: {story_text} sound: {sound_file_name}")
         #store the data in the dictionary
-        data['storypoints'].append({"gameTime": str(game_time), "assignedChannel": assigned_channel, "storyText": story_text, "soundFileName": sound_file_name})
+        data['storypoints'].append({"gameTime": str(game_time), "assignedChannel": assigned_channel, "text": story_text, "soundFileName": sound_file_name})
         index+=1
     #write the data to a JSON file
     json_data = json.dumps(data, indent=4)
