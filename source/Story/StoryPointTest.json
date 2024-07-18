@@ -4,25 +4,31 @@
             "gameTime": "00:00:00",
             "assignedChannel": 5,
             "text": "This is a test story point 1",
-            "soundFileName": "sound/conversation"
+            "soundFileName": "conversation_5_000000"
         },
         {
             "gameTime": "00:00:30",
             "assignedChannel": 1,
             "text": "This is a test story point 2",
-            "soundFileName": "sound/conversation"
+            "soundFileName": "conversation_1_000030"
         },
         {
             "gameTime": "00:01:00",
             "assignedChannel": 1,
             "text": "This is a test story point 3",
-            "soundFileName": "sound/conversation"
+            "soundFileName": "conversation_1_001000"
         },
         {
             "gameTime": "00:00:00",
             "assignedChannel": 2,
             "text": "This is a different story point on 2",
-            "soundFileName": "sound/conversation"
+            "soundFileName": "conversation_2_000000"
+        },
+        {
+            "gameTime": "00:00:00",
+            "assignedChannel": 1,
+            "text": "This is a different story point on 1",
+            "soundFileName": "conversation_1_000000"
         }
     ]
 }
