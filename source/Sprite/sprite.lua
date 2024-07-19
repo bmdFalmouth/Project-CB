@@ -1,5 +1,7 @@
 import "CoreLibs/object"
 import "CoreLibs/graphics"
+import 'CoreLibs/easing'
+import 'CoreLibs/animator'
 
 local g = playdate.graphics
 --Base Sprite for visible things on the screen
@@ -76,16 +78,27 @@ function TextBoxSprite:init(x,y,width,height,font,text)
     self.background:setZIndex(900)
     self.frameRate=10
     self.frameCounter=0
+    self.visible = false
+    --self.animators={animatorIn=g.animator.new(500,450,y,playdate.easingFunctions.kEaseOut),
+    --animatorOut=g.animator.new(500,y,450,playdate.easingFunctions.kEaseIn)}
+    self.currentAnimator=g.animator.new(500,450,y,playdate.easingFunctions.kEaseOut)
 end
 
+-- https://sdk.play.date/2.5.0/Inside%20Playdate.html#C-graphics.animator
 function TextBoxSprite:start()
     print("TextBoxSprite:stat()")
     self.typing = true
+    self.visible = true
+    --self.currentAnimator=self.animators.animatorIn
+    --self.currentAnimator.reset()
 end
 
 function TextBoxSprite:stop()
     print("TextBoxSprite:stop()")
     self.typing = false
+    self.visible = false
+    --self.currentAnimator=self.animators.animatorIn
+    --self.currentAnimator.reset()
 end
 
 function TextBoxSprite:reset()
@@ -99,6 +112,10 @@ end
 function TextBoxSprite:update()
     TextBoxSprite.super.update(self)
     --update this every second
+    if (self.visible == false) then
+        return
+    end
+
     if self.frameCounter%self.frameRate==0 then
         self.currentChar = self.currentChar + 1
     end
@@ -125,22 +142,29 @@ end
 -- this function defines how this sprite is drawn
 function TextBoxSprite:draw(gfx)
     --TextBoxSprite.super.draw(self)
-	
+	if (self.visible == false) then
+        return
+    end
+    currentYPosition=self.currentAnimator:currentValue()
 	-- pushing context means, limit all the drawing config to JUST this block
 	-- that way, the colors we set etc. won't be stuck
 	gfx.pushContext(self.background)
         gfx.setFont(self.font)
 		-- draw the box				
 		gfx.setColor(gfx.kColorWhite)
-		gfx.fillRect(self.x,self.y,self.width,self.height)
+		gfx.fillRect(self.x,currentYPosition,self.width,self.height)
 		
 		-- border
 		gfx.setLineWidth(4)
 		gfx.setColor(gfx.kColorBlack)
-		gfx.drawRect(self.x,self.y,self.width,self.height)
+		gfx.drawRect(self.x,currentYPosition,self.width,self.height)
+
+        gfx.setLineWidth(2)
+		gfx.setColor(gfx.kColorBlack)
+		gfx.drawRect(self.x+4,currentYPosition+4,self.width-8,self.height-8)
 		
 		-- draw the text!
-		gfx.drawTextInRect(self.currentText, self.x+10, self.y+10, self.width-20, self.height-20)
+		gfx.drawTextInRect(self.currentText, self.x+20, currentYPosition+20, self.width-20, self.height-20)
 	
 	gfx.popContext()
 	
