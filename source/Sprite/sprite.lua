@@ -40,7 +40,7 @@ function ImageSprite:init(x,y,image)
 end
 
 function ImageSprite:draw(gfx)
-    gfx.drawImage(self.image,self.x,self.y)
+    self.image:draw(self.x,self.y)
 end
 
 -- Text Sprite for all sprites that use text
