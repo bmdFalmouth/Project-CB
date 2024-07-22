@@ -14,7 +14,7 @@ def main():
         return
 
     #open the sheet
-    sheet = wb['Sheet1']
+    sheet = wb['index']
     #create a dictionary to store the data
     data = {'storypoints': []}
     index=0

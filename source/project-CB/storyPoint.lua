@@ -4,6 +4,7 @@ import "CoreLibs/object"
 StoryPointData={
     gameTime="00:00:00",
     assignedChannel=0,
+    --this will most likely have to be a table of strings, after initial testing
     text="",
     soundFileName=""
 }
