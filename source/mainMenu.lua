@@ -15,7 +15,7 @@ local systemFont=nil
 
 function MainMenuScene:load()
     systemFont = playdate.graphics.font.new('font/Mini Sans 2X') -- DEMO
-    mainMenuText=TextSprite(100,120,systemFont,"Press A to start")
+    local mainMenuText=TextSprite(100,120,systemFont,"Press A to start")
     self:addToRenderQueue(mainMenuText)
 end
 

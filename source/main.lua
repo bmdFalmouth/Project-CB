@@ -17,11 +17,11 @@ local function loadGame()
 	math.randomseed(playdate.getSecondsSinceEpoch()) -- seed for math.random
 
 	--init scenes
-	mainMenuScene=MainMenuScene()
+	local mainMenuScene=MainMenuScene()
 	mainMenuScene:load()
 
 
-	gameScene=ProjectCBScene()
+	local gameScene=ProjectCBScene()
 	mainMenuScene:setNextScene(gameScene)
 
 	sceneManager:addScene(gameScene)

@@ -52,7 +52,7 @@ function ProjectCBScene:load()
 	channelFont = playdate.graphics.font.new('font/CursedTimerUlil-Aznm-20')
 	storyFont = playdate.graphics.font.new('font/Roboto-Medium-12')
 
-	cb_radio_image=playdate.graphics.image.new('images/CB-Radio')
+	local cb_radio_image=playdate.graphics.image.new('images/CB-Radio')
 	cb_radio_sprite=ImageSprite(0,0,cb_radio_image)
 
 	currentChannelText=TextSprite(180,50,channelFont,0)
@@ -93,7 +93,7 @@ function ProjectCBScene:gameTimerUpdate()
 	minutes=string.format("%02d",minutes)
 	hours=string.format("%02d",hours)
 
-	time=hours..":"..minutes..":"..seconds
+	local time=hours..":"..minutes..":"..seconds
 	debugText:setText(time)
 
 	--get the current set of story points from this time, only do this if the time has changed by 30 seconds
@@ -122,7 +122,7 @@ function ProjectCBScene:update()
     ProjectCBScene.super.update(self)
 
     --get crank ticks, this will update every 180 degrees( 360 / 2 )
-	crankValueDelta=playdate.getCrankTicks(2)
+	local crankValueDelta=playdate.getCrankTicks(2)
 	currentChannel+=crankValueDelta
 	currentChannel=math.clamp(currentChannel,0,40)
 	currentChannelText:setText(currentChannel)
