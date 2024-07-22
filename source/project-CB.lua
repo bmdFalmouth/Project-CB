@@ -15,9 +15,12 @@ import "project-CB/storyPoint"
 
 class('ProjectCBScene').extends(Scene)
 
+local MAX_CHANNELS <const> = 20
+
 local currentChannel=0
-local lastChannel=40
-local testSoundChannel <const> = 2
+local lastChannel=MAX_CHANNELS
+
+
 
 local background_sound=nil
 local conversation_sound=nil
@@ -64,7 +67,7 @@ function ProjectCBScene:load()
 	self:addToRenderQueue(currentChannelText)
 	self:addToRenderQueue(storyText)
 
-	storyPointManager=StoryPointManager()
+	storyPointManager=StoryPointManager(MAX_CHANNELS)
 	storyPointManager:loadStoryPointsFromFile("Story/StoryPointTest.json")
 
 	playdate.resetElapsedTime()
@@ -98,24 +101,7 @@ function ProjectCBScene:gameTimerUpdate()
 
 	--get the current set of story points from this time, only do this if the time has changed by 30 seconds
 	if (gameTime%30==0) then
-		if (currentStoryPoint~=nil) then
-			print("Stopping current story sound")
-			currentStoryPoint:stopSound()
-		end
-		currentStoryPointsAtTime=storyPointManager:getStoryPointsAtTime(time)
-		currentStoryPoint=currentStoryPointsAtTime[currentChannel]
-		if (currentStoryPoint~=nil) then
-			background_sound:stop()
-			print("Play new story sound")
-			currentStoryPoint:playSound()
-			storyText:setText(currentStoryPoint:getText())
-			storyText:start()
-		else
-			background_sound:play(0)
-			storyText:stop()
-			storyText:reset()
-		end
-	end
+
 end
 
 function ProjectCBScene:update()
@@ -124,7 +110,7 @@ function ProjectCBScene:update()
     --get crank ticks, this will update every 180 degrees( 360 / 2 )
 	local crankValueDelta=playdate.getCrankTicks(2)
 	currentChannel+=crankValueDelta
-	currentChannel=math.clamp(currentChannel,0,40)
+	currentChannel=math.clamp(currentChannel,0,MAX_CHANNELS)
 	currentChannelText:setText(currentChannel)
 
 	--get a story point from currentStortyPointsAtTime
@@ -147,4 +133,25 @@ function ProjectCBScene:update()
 		end
 	end
 	lastChannel=currentChannel
+end
+
+function ProjectCBScene:updateStory()
+		if (currentStoryPoint~=nil) then
+			print("Stopping current story sound")
+			currentStoryPoint:stopSound()
+		end
+		currentStoryPointsAtTime=storyPointManager:getStoryPointsAtTime(time)
+		currentStoryPoint=currentStoryPointsAtTime[currentChannel]
+		if (currentStoryPoint~=nil) then
+			background_sound:stop()
+			print("Play new story sound")
+			currentStoryPoint:playSound()
+			storyText:setText(currentStoryPoint:getText())
+			storyText:start()
+		else
+			background_sound:play(0)
+			storyText:stop()
+			storyText:reset()
+		end
+	end
 end

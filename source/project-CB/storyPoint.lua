@@ -78,7 +78,7 @@ end
 
 class ('StoryPointManager').extends()
 
-function StoryPointManager:init()
+function StoryPointManager:init(num_channels)
     StoryPointManager.super.init(self)
     self.storyPoints={{}}
     hours=0
@@ -93,7 +93,7 @@ function StoryPointManager:init()
     
         time=hours..":"..minutes..":"..seconds
         self.storyPoints[time]={}
-        for j=0,40 do
+        for j=0,num_channels do
             self.storyPoints[time][j]=nil
             print("Nil Story Point "..time.." "..j.." added")
         end
