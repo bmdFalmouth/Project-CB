@@ -50,12 +50,10 @@ end
 function ProjectCBScene:load()
     systemFont = playdate.graphics.font.new('font/Mini Sans 2X') -- DEMO
 	channelFont = playdate.graphics.font.new('font/CursedTimerUlil-Aznm-20')
-	storyFont = playdate.graphics.font.new('font/CRoboto-Medium-12')
+	storyFont = playdate.graphics.font.new('font/Roboto-Medium-12')
 
 	cb_radio_image=playdate.graphics.image.new('images/CB-Radio')
 	cb_radio_sprite=ImageSprite(0,0,cb_radio_image)
-
-
 
 	currentChannelText=TextSprite(180,50,channelFont,0)
 	debugText=TextSprite(300,0,systemFont,"debug")
